@@ -16,7 +16,7 @@ public class ERP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-    }
+            System.out.println("Richard the best");
+        }
     
 }
