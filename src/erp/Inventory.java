@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Inventory {
 
-    
-    //En el UML aparece como un ArrayList de Transaction
     ArrayList<Sale> saleList;
     ArrayList<Purchase> purchaseList;
     ArrayList<ManufacturedProduct> manufacturedProductList;

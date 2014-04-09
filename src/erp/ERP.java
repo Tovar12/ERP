@@ -6,14 +6,13 @@ public class ERP {
 
     Inventory inventory;
     ArrayList<Provider> providerList;
-    ArrayList<Customer> customerList;
-    
-    public static void main(String[] args) {
-            
-        }
+    ArrayList<Customer> customerList;          
     
     public ERP(){
     
+        inventory = new Inventory();
+        providerList = new ArrayList<>();
+        customerList = new ArrayList<>();        
     }
     
     public boolean buildProduct(String productName){
