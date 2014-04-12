@@ -2,25 +2,25 @@ package erp;
 
 public class SellingProduct extends Product{
 
-    long salePrize;
-    long purchasePrize;
+    long salePrice;
+    long purchasePrice;
     
     public SellingProduct() {
     }
     
-    public void setSalePrize(long salePrize){
-        this.salePrize = salePrize;
+    public void setSalePrice(long salePrice){
+        this.salePrice = salePrice;
     }
     
-    public long getSalePrize(){
-        return salePrize;
+    public long getSalePrice(){
+        return salePrice;
     }
     
-    public void setPurchasePrize(long purchasePrize){
-        this.purchasePrize = purchasePrize;
+    public void setPurchasePrice(long purchasePrice){
+        this.purchasePrice = purchasePrice;
     }
     
-    public long getPurchasePrize(){
-        return purchasePrize;
+    public long getPurchasePrice(){
+        return purchasePrice;
     }
 }

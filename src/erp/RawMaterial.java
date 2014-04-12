@@ -2,16 +2,16 @@ package erp;
 
 public class RawMaterial extends Product{
 
-    long purchasePrize;
+    long purchasePrice;
     
     public RawMaterial() {
     }
     
-    public void setPurchasePrize(long purchasePrize){
-        this.purchasePrize = purchasePrize;
+    public void setPurchasePrice(long purchasePrice){
+        this.purchasePrice = purchasePrice;
     }
     
-    public long getPurchasePrize(){
-        return purchasePrize;
+    public long getPurchasePrice(){
+        return purchasePrice;
     }
 }

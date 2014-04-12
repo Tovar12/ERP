@@ -10,7 +10,11 @@ public class FLowClass {
         ERP objERP = new ERP();
         String producName = "";
         int productQuantity = 0;
-        long producPrize = 0;
+        long producPrice = 0;
+        Inventory inventory = new Inventory();
+        RawMaterial rawMaterial = new RawMaterial();
+        ManufacturedProduct manufactured = new ManufacturedProduct();
+        SellingProduct selling = new SellingProduct();
 
         System.out.println("Main menu:");
         System.out.println("Select an option writting the number"
@@ -67,12 +71,69 @@ public class FLowClass {
             case "3.1":
                 System.out.println("Write the name of the rawMaterial product:");
                 producName = entrada.nextLine();
-                System.out.println("Write how many rawMaterial products did you buy");
+                rawMaterial.setProductName(producName);
+                System.out.println("Write how many rawMaterial products did you buy:");
+                productQuantity = Integer.parseInt(entrada.nextLine());
+                rawMaterial.setQuantity(productQuantity);
+                System.out.println("Write the price of each element:");
+                producPrice = Long.parseLong(entrada.nextLine());                                
+                rawMaterial.setPurchasePrice(producPrice);
+                
+                if (inventory.addNewRawMaterial(rawMaterial)) {
+                    System.out.println("RawMaterial product added");
+                } else {
+                    System.out.println("You already have that rawMaterial");
+                }
                 break;
             case "3.2":                
                 break;
             case "3.3":
                 break;
+            case "3.4":                
+                System.out.println("Write the name of the manufactured product:");
+                producName = entrada.nextLine();
+                manufactured.setProductName(producName);
+                System.out.println("Write how many manufactured products do you have for sale:");
+                productQuantity = Integer.parseInt(entrada.nextLine());
+                manufactured.setQuantity(productQuantity);
+                System.out.println("Write the price of each element:");
+                producPrice = Long.parseLong(entrada.nextLine());                                
+                manufactured.setSalePrice(producPrice);
+                
+                if (inventory.addNewManufacturedProduct(manufactured)) {
+                    System.out.println("Manufactured product added");
+                } else {
+                    System.out.println("You already have that rawMaterial");
+                }
+                break;
+            case "3.5":
+                break;
+            case "3.6":                
+                break;
+            case "3.7":
+                System.out.println("Write the name of the manufactured product:");
+                producName = entrada.nextLine();
+                selling.setProductName(producName);
+                System.out.println("Write how many selling products are avaible for sale:");
+                productQuantity = Integer.parseInt(entrada.nextLine());
+                selling.setQuantity(productQuantity);
+                System.out.println("Write the purchase price of each item");
+                producPrice = Long.parseLong(entrada.nextLine());
+                selling.setPurchasePrice(producPrice);
+                System.out.println("Write the sale price of each item:");
+                producPrice = Long.parseLong(entrada.nextLine());                                                
+                selling.setSalePrice(producPrice);
+                
+                if (inventory.addNewSellingProduct(selling)) {
+                    System.out.println("Selling product added");
+                } else {
+                    System.out.println("You already have that rawMaterial");
+                }
+                break;
+            case "3.8":                
+                break;
+            case "3.9":
+                break;                
             default:
         }
 
