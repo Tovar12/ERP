@@ -12,6 +12,7 @@ public class Inventory {
     ArrayList<SellingProduct> sellingProductList;
     
     public Inventory() {
+        //Llenar el rawMaterial con dos productos base
         rawMaterialList = new ArrayList<>();
         RawMaterial rawMaterial = new RawMaterial();
         

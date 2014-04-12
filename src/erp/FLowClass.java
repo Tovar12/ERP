@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class FLowClass {
 
     static boolean salida = true;
+    static boolean salidaRawMaterials = true;
     //Se deben declarar fuera los objetos para que no reinicie las clases
     //y borre los cambios realizados en ellos
     static RawMaterial rawMaterial = new RawMaterial();;
@@ -147,6 +148,42 @@ public class FLowClass {
                 } else {
                     System.out.println("You already have that rawMaterial");
                 }
+                
+                //Desde acá empieza a añadir los rawMaterial de ese Manufactured
+                
+                System.out.println("Now you have to add the raw material elements"
+                        + " to build that manufactured product");
+                while (salidaRawMaterials) {
+                    System.out.println("Write the name of the rawMaterial product:");
+                    productName = entrada.nextLine();
+                    rawMaterial.setProductName(productName);
+                    System.out.println("Write how many rawMaterial products did you buy:");
+                    productQuantity = Integer.parseInt(entrada.nextLine());
+                    rawMaterial.setQuantity(productQuantity);
+                    System.out.println("Write the purchase price of each element:");
+                    productPurchasePrice = Long.parseLong(entrada.nextLine());
+                    rawMaterial.setPurchasePrice(productPurchasePrice);
+
+                    if (inventory.addNewRawMaterial(rawMaterial)) {
+                        System.out.println("RawMaterial product added");
+                    } else {
+                        System.out.println("You already have that rawMaterial");
+                    }
+                    
+                    System.out.println("Do you need to add more raw materials? (y/n)");
+                    if (entrada.nextLine().equals("n")) {
+                        salidaRawMaterials = false;
+                    } else {
+                        System.out.println("Next raw material:");                        
+                    }
+                }
+                
+                
+                
+                
+                
+                
+                
                 break;
             case "3.5":
                 System.out.println("Write the name of the manufactured product to edit:");
