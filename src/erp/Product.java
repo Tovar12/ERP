@@ -2,8 +2,8 @@ package erp;
 
 public class Product {
 
-    String productName;
-    int quantity; 
+    private String productName;
+    private int quantity; 
     
     public Product() {
     }
@@ -12,7 +12,7 @@ public class Product {
         this.productName = productName;
     }
     
-    public String getProduct(){
+    public String getProductName(){
         return productName;
     }
     

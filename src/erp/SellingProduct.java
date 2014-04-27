@@ -4,6 +4,8 @@ public class SellingProduct extends Product{
 
     long salePrice;
     long purchasePrice;
+    //e invariant salePrice >= 0;
+    //e invariant purchasePrice >= 0;
     
     public SellingProduct() {
     }

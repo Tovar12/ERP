@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class ManufacturedProduct extends Product{
 
-    long salePrice;
-    ArrayList<RawMaterial> rawMaterialList;
+    private long salePrice;
+    private ArrayList<String> rawMaterialList;
+    //e invariant salePrice >= 0;
     
     public ManufacturedProduct() {
+        rawMaterialList = new ArrayList<>();
     }
-   
+    
     public void setSalePrice(long salePrice){
         this.salePrice = salePrice;
     }
@@ -18,7 +20,11 @@ public class ManufacturedProduct extends Product{
         return salePrice;
     }
     
-    public void setRawMaterialList(ArrayList<RawMaterial> rawMaterialList){
+    public void setRawMaterialList(ArrayList<String> rawMaterialList){
         this.rawMaterialList = rawMaterialList;
+    }
+    
+    public ArrayList<String> getRawMaterialList(){
+       return this.rawMaterialList;
     }
 }

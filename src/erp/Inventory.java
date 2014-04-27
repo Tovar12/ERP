@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Inventory {
 
-    ArrayList<Sale> saleList;
-    ArrayList<Purchase> purchaseList;
-    ArrayList<ManufacturedProduct> manufacturedProductList;
+    private ArrayList<Sale> saleList;
+    private ArrayList<Purchase> purchaseList;
+    private ArrayList<ManufacturedProduct> manufacturedProductList;
     //ArrayList<RawMaterial> rawMaterialList = new ArrayList<>();
-    ArrayList<RawMaterial> rawMaterialList;
-    ArrayList<SellingProduct> sellingProductList;
+    private ArrayList<RawMaterial> rawMaterialList;
+    private ArrayList<SellingProduct> sellingProductList;
     
     public Inventory() {
         //Llenar el rawMaterial con dos productos base
@@ -35,6 +35,7 @@ public class Inventory {
         manufacturedProductList = new ArrayList<>();
         
         ManufacturedProduct manufactured = new ManufacturedProduct();
+         
         
         manufactured.setProductName("silla");
         manufactured.setQuantity(5);
@@ -73,11 +74,55 @@ public class Inventory {
         sellingProductList.add(selling);        
     }
     
+    public boolean registerSale(ArrayList<String> productList, String customerName, long salePrize){
+        Sale sale = new Sale();
+        sale.setCustomerName(customerName);
+        sale.setProductList(productList);
+        sale.setTransactionPrize(salePrize);
+        
+        
+        this.getSaleList().add(sale);
+        return true;
+    }
+    
+    public boolean registerPurchase(ArrayList<String> productList, String providerName, long purchasePrize){
+        Purchase purchase = new Purchase();
+        purchase.setProviderName(providerName);
+        purchase.setProductList(productList);
+        purchase.setTransactionPrize(purchasePrize);
+        
+        
+        this.getPurchaseList().add(purchase);
+        return true;
+    }
+    
+    public boolean buildProduct(String productName){
+       
+        for(ManufacturedProduct mfp : this.getManufacturedProductList()){
+            if(mfp.getProductName().equals(productName)){
+                for(String rm : mfp.getRawMaterialList()){
+                    for(RawMaterial rm1 : this.getRawMaterialList()){
+                        if(rm.equals(rm1.getProductName())){
+                                if(rm1.getQuantity()>0){
+                                    rm1.setQuantity(rm1.getQuantity()-1);
+                                }else{
+                                    return false;
+                                }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    
+    
     //Se valida si ya existe el manufactured antes de agregarlo
     //Se realiza mediante la comparacion de nombres
     public boolean addNewManufacturedProduct(ManufacturedProduct product){
         for (int i = 0; i < manufacturedProductList.size(); i++) {
-            if (manufacturedProductList.get(i).productName.equals(product.productName)) {
+            if (manufacturedProductList.get(i).getProductName().equals(product.getProductName())) {
                 return false;                
             }
         }
@@ -89,7 +134,7 @@ public class Inventory {
     //Se realiza mediante la comparacion de nombres    
     public boolean addNewRawMaterial(RawMaterial product){
         for (int i = 0; i < rawMaterialList.size(); i++) {
-            if (rawMaterialList.get(i).productName.equals(product.productName)) {
+            if (rawMaterialList.get(i).getProductName().equals(product.getProductName())) {
                 return false;                
             }
         }
@@ -101,7 +146,7 @@ public class Inventory {
     //Se realiza mediante la comparacion de nombres     
     public boolean addNewSellingProduct(SellingProduct product){
         for (int i = 0; i < sellingProductList.size(); i++) {
-            if (sellingProductList.get(i).productName.equals(product.productName)) {
+            if (sellingProductList.get(i).getProductName().equals(product.getProductName())) {
                 return false;                
             }
         }
@@ -115,7 +160,7 @@ public class Inventory {
                                int newProductQuantity, long newPurchasePrice){
         
         for (int i = 0; i < rawMaterialList.size(); i++) {
-            if (rawMaterialList.get(i).productName.equals(productName)) {
+            if (rawMaterialList.get(i).getProductName().equals(productName)) {
                 rawMaterialList.get(i).setProductName(newProductName);
                 rawMaterialList.get(i).setQuantity(newProductQuantity);
                 rawMaterialList.get(i).setPurchasePrice(newPurchasePrice);
@@ -130,15 +175,40 @@ public class Inventory {
                                int newProductQuantity, long newSalePrice){
         
         for (int i = 0; i < manufacturedProductList.size(); i++) {
-            if (manufacturedProductList.get(i).productName.equals(productName)) {
+            int actualQuantity = 0;
+            if (manufacturedProductList.get(i).getProductName().equals(productName)) {
                 manufacturedProductList.get(i).setProductName(newProductName);
-                manufacturedProductList.get(i).setQuantity(newProductQuantity);
                 manufacturedProductList.get(i).setSalePrice(newSalePrice);
+                int oldProductQuantity = manufacturedProductList.get(i).getQuantity();
+                if(oldProductQuantity < newProductQuantity){
+                    int difference = newProductQuantity - oldProductQuantity;
+                    for(int j=0; j<difference; j++){
+                        boolean buildingSuccessful = this.buildProduct(productName);
+                        if(buildingSuccessful == false){
+                            actualQuantity = oldProductQuantity + j;
+                            System.out.println("There is not enough RawMaterial to build "
+                                    +"\n"
+                                    + "the amount of this Manufatured Product you want to "
+                                    +"\n"
+                                    + "build.");
+                            
+                            System.out.println("");
+                            System.out.println("" + j + " of these products were built");
+                            System.out.println("");
+                            System.out.println("The new quantity of these product is " + 
+                                    actualQuantity + ".");
+                            break;
+                        }
+                        actualQuantity = newProductQuantity;
+                    }
+                }
+                manufacturedProductList.get(i).setQuantity(actualQuantity);
                 return true;
             }
         }
         return false;
     }  
+    
     
     //Se edita un producto de tipo selling
     public boolean editSellingProduct(String productName, String newProductName,
@@ -146,7 +216,7 @@ public class Inventory {
                                long newSalePrice){
         
         for (int i = 0; i < sellingProductList.size(); i++) {
-            if (sellingProductList.get(i).productName.equals(productName)) {
+            if (sellingProductList.get(i).getProductName().equals(productName)) {
                 sellingProductList.get(i).setProductName(newProductName);
                 sellingProductList.get(i).setQuantity(newProductQuantity);
                 sellingProductList.get(i).setSalePrice(newSalePrice);                
@@ -160,7 +230,7 @@ public class Inventory {
     //Borra un rawmaterial
     public boolean deleteRawMaterialProduct(String productName){
         for (int i = 0; i < rawMaterialList.size(); i++) {
-            if (rawMaterialList.get(i).productName.equals(productName)) {
+            if (rawMaterialList.get(i).getProductName().equals(productName)) {
                 rawMaterialList.remove(i);
                 return true;                
             }
@@ -171,7 +241,7 @@ public class Inventory {
     //Borra un manufactured    
     public boolean deleteManufacturedProduct(String productName){
         for (int i = 0; i < manufacturedProductList.size(); i++) {
-            if (manufacturedProductList.get(i).productName.equals(productName)) {
+            if (manufacturedProductList.get(i).getProductName().equals(productName)) {
                 manufacturedProductList.remove(i);
                 return true;                
             }
@@ -182,7 +252,7 @@ public class Inventory {
     //Borra un selling
     public boolean deleteSellingProduct(String productName){
         for (int i = 0; i < sellingProductList.size(); i++) {
-            if (sellingProductList.get(i).productName.equals(productName)) {
+            if (sellingProductList.get(i).getProductName().equals(productName)) {
                 sellingProductList.remove(i);
                 return true;                
             }
